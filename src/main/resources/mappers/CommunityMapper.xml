@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.community.api.mapper.CommunityMapper">
+
+	<resultMap id="communityMap" type="com.community.api.dto.CommunityDto">
+        <result column="com_no" property="comNo" javaType="Integer"/>
+        <result column="com_type" property="comType" javaType="Integer"/>
+        <result column="com_title" property="comTitle" javaType="String"/>
+        <result column="com_contents" property="comContents" javaType="String"/>
+        <result column="com_date" property="comDate" javaType="String"/>
+        <result column="mem_no" property="memNo" javaType="Integer"/>
+        <result column="mem_id" property="memId" javaType="String"/>
+        <result column="mem_name" property="memName" javaType="String"/>
+        <result column="mem_nickname" property="memNickname" javaType="String"/>
+    </resultMap>
+
+	<select id="getCommunityList" resultMap="communityMap">
+		SELECT comNo,
+			   comType,
+			   comTitle,
+			   comContents,
+			   comDate,
+			   c.memNo,
+			   memId,
+			   memName,
+			   memNickname
+		FROM community c LEFT JOIN user u
+		ON c.memNo = u.memNo
+		ORDER BY comNo DESC
+		LIMIT #{offset}, #{limit}
+	</select>
+	
+	<select id="getMyCommunityList" resultMap="communityMap">
+		SELECT comNo,
+			   comType,
+			   comTitle,
+			   comContents,
+			   comDate,
+			   c.memNo,
+			   memId,
+			   memName,
+			   memNickname
+		FROM community c LEFT JOIN user u
+		ON c.memNo = u.memNo
+		WHERE c.memNo = #{memNo}
+		ORDER BY comNo DESC
+		LIMIT #{offset}, #{limit}
+	</select>
+	
+	<select id="getCommunityDetails" resultMap="communityMap">
+		SELECT comNo,
+			   comType,
+			   comTitle,
+			   comContents,
+			   comDate,
+			   c.memNo,
+			   memId,
+			   memName,
+			   memNickname
+		FROM community c LEFT JOIN user u
+		ON c.memNo = u.memNo
+		WHERE comNo = #{comNo}
+	</select>
+	
+	<insert id="insertCommunityContent">
+		INSERT INTO community
+			(com_type,
+			 com_title,
+			 com_contents,
+			 com_date,
+			 mem_no)
+		VALUES
+			(#{comType},
+			 #{comTitle},
+			 #{comContents},
+			 NOW(),
+			 #{memNo})
+	</insert>
+	
+	<update id="modifyCommunityContent">
+		UPDATE community
+		SET
+			com_type = #{comType},
+			com_title = #{comTitle},
+			com_contents = #{comContents}
+		WHERE com_no = #{comNo}
+	</update>
+	
+	<delete id="deleteCommunityContent">
+		DELETE FROM community
+		WHERE com_no = #{comNo}
+	</delete>
+	
+	<!-- 커뮤니티 댓글 진행 중 -->
+	
+</mapper>

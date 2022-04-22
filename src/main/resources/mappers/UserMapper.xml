@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.community.api.mapper.UserMapper">
+
+	<resultMap id="userMap" type="com.community.api.dto.UserDto">
+        <result column="mem_no" property="memNo" javaType="Integer"/>
+        <result column="mem_id" property="memId" javaType="String"/>
+        <result column="mem_name" property="memName" javaType="String"/>
+        <result column="mem_nickname" property="memNickname" javaType="String"/>
+        <result column="mem_email" property="memEmail" javaType="String"/>
+        <result column="mem_phone" property="memPhone" javaType="String"/>
+        <result column="mem_role" property="memRole" javaType="String"/>
+        <result column="mem_datetime" property="memDatetime" javaType="String"/>
+    </resultMap>
+
+	<select id="findTargetUserInfo" resultMap="userMap">
+		SELECT *
+		FROM user
+		WHERE mem_id = #{memId}
+	</select>
+
+	<insert id="createUser" useGeneratedKeys="true" keyProperty="memNo">
+		INSERT INTO user
+			(memId,
+			 memPw,
+			 memName,
+			 memNickname,
+			 memEmail,
+			 memPhone,
+			 memRole,
+			 memDatetime)
+		VALUES
+			(#{memId},
+			 #{memPw},
+			 #{memName},
+			 #{memNickname},
+			 #{memEmail},
+			 #{memPhone},
+			 #{memRole},
+			 NOW())
+	</insert>
+
+</mapper>
