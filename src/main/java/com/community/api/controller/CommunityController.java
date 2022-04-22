@@ -48,7 +48,7 @@ public class CommunityController {
 		return ResponseEntity.ok(response);
 	}
 	
-	@GetMapping("/detail/{comId}")
+	@GetMapping("/detail/{comNo}")
 	@ApiDescription("커뮤니티 상세 보기")
 	public ResponseEntity<Response> getCommunityDetails(@PathVariable("comNo") int comNo) {
 		CommunityDto communityInfo = communityService.getCommunityDetails(comNo);
@@ -120,7 +120,7 @@ public class CommunityController {
 		return ResponseEntity.ok(response);
 	}
 	
-	@GetMapping("/comment/{comcId}")
+	@GetMapping("/comment/{comcNo}")
 	@ApiDescription("댓글 개별 조회")
 	public ResponseEntity<Response> getCommunityCommentTypePiece(@PathVariable("comcNo") int comcNo) {
 		CommunityCommentDto communityCommentInfo = communityService.getCommunityCommentTypePiece(comcNo);
